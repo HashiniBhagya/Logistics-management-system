@@ -142,7 +142,17 @@ public class Logistics_Management_System01 {
     
 
     public static void viewCities() {
+        if (cityCount == 0) {
+            System.out.println("No cities available!");
+            return;
+        }
+        
+        System.out.println("\n=== LIST OF CITIES ===");
+        for (int i = 0; i < cityCount; i++) {
+            System.out.println((i + 1) + ". " + cities[i]);
+        }
     }
+    
 
     public static void renameCity(Scanner scanner) {
     }
