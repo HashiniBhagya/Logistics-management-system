@@ -155,6 +155,25 @@ public class Logistics_Management_System01 {
     
 
     public static void renameCity(Scanner scanner) {
+        viewCities();
+        if (cityCount == 0) return;
+        
+        System.out.print("Enter city number to rename: ");
+        int cityNum = scanner.nextInt();
+        scanner.nextLine(); // clear newline
+        
+        if (cityNum < 1 || cityNum > cityCount) {
+            System.out.println("Invalid city number!");
+            return;
+        }
+        
+        System.out.print("Enter new name: ");
+        String newName = scanner.nextLine();
+        
+        String oldName = cities[cityNum - 1];
+        cities[cityNum - 1] = newName;
+        System.out.println("City '" + oldName + "' renamed to '" + newName + "'");
+
     }
 
     public static void removeCity(Scanner scanner) {
