@@ -64,6 +64,43 @@ public class Logistics_Management_System01 {
     }
 
     public static void cityManagement() {
+        
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        
+        do {
+            System.out.println("\n=== CITY MANAGEMENT ===");
+            System.out.println("1. Add New City");
+            System.out.println("2. View All Cities");
+            System.out.println("3. Rename City");
+            System.out.println("4. Remove City");
+            System.out.println("5. Back to Main Menu");
+            System.out.print("Enter your choice: ");
+            
+            choice = scanner.nextInt();
+            scanner.nextLine(); // clear newline
+            
+            switch (choice) {
+                case 1:
+                    addCity(scanner);
+                    break;
+                case 2:
+                    viewCities();
+                    break;
+                case 3:
+                    renameCity(scanner);
+                    break;
+                case 4:
+                    removeCity(scanner);
+                    break;
+                case 5:
+                    System.out.println("Returning to main menu...");
+                    break;
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        } while (choice != 5);
+
     }
 
     public static void distanceManagement() {
@@ -79,6 +116,18 @@ public class Logistics_Management_System01 {
     }
 
     public static void showReports() {
+    }
+
+    public static void addCity(Scanner scanner) {
+    }
+
+    public static void viewCities() {
+    }
+
+    public static void renameCity(Scanner scanner) {
+    }
+
+    public static void removeCity(Scanner scanner) {
     }
 
     
