@@ -118,8 +118,28 @@ public class Logistics_Management_System01 {
     public static void showReports() {
     }
 
-    public static void addCity(Scanner scanner) {
+       public static void addCity(Scanner scanner) {
+        if (cityCount >= 30) {
+            System.out.println("Cannot add more cities! Maximum limit reached.");
+            return;
+        }
+        
+        System.out.print("Enter city name: ");
+        String cityName = scanner.nextLine();
+        
+        // Check if city already exists
+        for (int i = 0; i < cityCount; i++) {
+            if (cities[i].equalsIgnoreCase(cityName)) {
+                System.out.println("City already exists!");
+                return;
+            }
+        }
+        
+        cities[cityCount] = cityName;
+        cityCount++;
+        System.out.println("City '" + cityName + "' added successfully!");
     }
+    
 
     public static void viewCities() {
     }
