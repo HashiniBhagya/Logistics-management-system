@@ -427,6 +427,26 @@ public class Logistics_Management_System01 {
         }
     }
     public static void findAlternativeRoutes(int source, int dest) {
+        boolean foundRoute = false;
+        
+        for (int i = 0; i < cityCount; i++) {
+            if (i != source && i != dest) {
+                int dist1 = distances[source][i];
+                int dist2 = distances[i][dest];
+                
+                if (dist1 > 0 && dist2 > 0) {
+                    int totalDistance = dist1 + dist2;
+                    System.out.println("\nAlternative route via " + cities[i] + ":");
+                    System.out.println(cities[source] + " → " + cities[i] + " → " + cities[dest] + 
+                                     " : " + totalDistance + " km");
+                    foundRoute = true;
+                }
+            }
+        }
+        
+        if (!foundRoute) {
+            System.out.println("No routes found between these cities!");
+        }
     }
     
 
