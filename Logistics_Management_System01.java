@@ -78,7 +78,7 @@ public class Logistics_Management_System01 {
             System.out.print("Enter your choice: ");
             
             choice = scanner.nextInt();
-            scanner.nextLine(); // clear newline
+            scanner.nextLine(); 
             
             switch (choice) {
                 case 1:
@@ -127,7 +127,6 @@ public class Logistics_Management_System01 {
         System.out.print("Enter city name: ");
         String cityName = scanner.nextLine();
         
-        // Check if city already exists
         for (int i = 0; i < cityCount; i++) {
             if (cities[i].equalsIgnoreCase(cityName)) {
                 System.out.println("City already exists!");
@@ -160,7 +159,7 @@ public class Logistics_Management_System01 {
         
         System.out.print("Enter city number to rename: ");
         int cityNum = scanner.nextInt();
-        scanner.nextLine(); // clear newline
+        scanner.nextLine(); 
         
         if (cityNum < 1 || cityNum > cityCount) {
             System.out.println("Invalid city number!");
@@ -177,7 +176,27 @@ public class Logistics_Management_System01 {
     }
 
     public static void removeCity(Scanner scanner) {
+        viewCities();
+        if (cityCount == 0) return;
+        
+        System.out.print("Enter city number to remove: ");
+        int cityNum = scanner.nextInt();
+        
+        if (cityNum < 1 || cityNum > cityCount) {
+            System.out.println("Invalid city number!");
+            return;
+        }
+        
+        String removedCity = cities[cityNum - 1];
+        
+        for (int i = cityNum - 1; i < cityCount - 1; i++) {
+            cities[i] = cities[i + 1];
+        }
+        cityCount--;
+        
+        System.out.println("City '" + removedCity + "' removed successfully!");
     }
+    
 
     
 }
