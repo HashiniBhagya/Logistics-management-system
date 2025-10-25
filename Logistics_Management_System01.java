@@ -288,8 +288,6 @@ public class Logistics_Management_System01 {
             System.out.println();
         }
     }
-  
-
     public static void showVehicleInfo() {
         System.out.println("\n=== VEHICLE INFORMATION ===");
         System.out.println("Type   Capacity(kg) Rate/km(LKR) Speed(km/h) Fuel(km/l)");
@@ -449,14 +447,41 @@ public class Logistics_Management_System01 {
         }
     }
     
-
-
     public static void showReports() {
+        System.out.println("\n=== PERFORMANCE REPORTS ===");
+        
+        if (deliveryCount == 0) {
+            System.out.println("No deliveries completed yet!");
+            return;
+        }
+        
+        double totalDistance = 0;
+        double totalRevenue = 0;
+        double totalTime = 0;
+        double longestDistance = 0;
+        double shortestDistance = Double.MAX_VALUE;
+        
+        for (int i = 0; i < deliveryCount; i++) {
+            DeliveryRecord delivery = deliveries[i];
+            totalDistance += delivery.distance;
+            totalRevenue += delivery.customerCharge;
+            totalTime += delivery.deliveryTime;
+            
+            if (delivery.distance > longestDistance) {
+                longestDistance = delivery.distance;
+            }
+            if (delivery.distance < shortestDistance) {
+                shortestDistance = delivery.distance;
+            }
+        }
+        
+        System.out.println("a. Total Deliveries Completed: " + deliveryCount);
+        System.out.printf("b. Total Distance Covered: %.2f km\n", totalDistance);
+        System.out.printf("c. Average Delivery Time: %.2f hours\n", totalTime / deliveryCount);
+        System.out.printf("d. Total Revenue: %.2f LKR\n", totalRevenue);
+        System.out.printf("   Estimated Profit: %.2f LKR\n", totalRevenue * 0.2);
+        System.out.printf("e. Longest Route: %.2f km\n", longestDistance);
+        System.out.printf("   Shortest Route: %.2f km\n", shortestDistance);
     }
 
-   
-
-       
-
-    
 }
