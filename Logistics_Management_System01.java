@@ -17,6 +17,23 @@ public class Logistics_Management_System01 {
     static int[] avgSpeeds = {60, 50, 45};
     static int[] fuelEfficiency = {12, 6, 4};
     
+    static DeliveryRecord[] deliveries = new DeliveryRecord[50];
+    static int deliveryCount = 0;
+    static class DeliveryRecord {
+      
+        double distance;
+        double customerCharge;
+        double deliveryTime;
+        
+        DeliveryRecord(int source, int dest, double weight, int vehicle, double dist, double charge, double time) {
+          
+            this.distance = dist;
+            this.customerCharge = charge;
+            this.deliveryTime = time;
+        }
+    }
+
+    
 
 
     public static void main(String[] args) {
@@ -339,8 +356,41 @@ public class Logistics_Management_System01 {
         
         calculateDeliveryCost(source, dest, distance, vehicleType, weight);
     }
-    public static void calculateDeliveryCost(int source, int dest, int distance, int vehicleType, double weight) {
+     public static void calculateDeliveryCost(int source, int dest, int distance, int vehicleType, double weight) {
+        double baseCost = distance * ratesPerKm[vehicleType] * (1 + weight / 10000);
+        
+        double fuelUsed = (double) distance / fuelEfficiency[vehicleType];
+        double fuelCost = fuelUsed * FUEL_PRICE;
+        
+        double deliveryTime = (double) distance / avgSpeeds[vehicleType];
+        
+        double operationalCost = baseCost + fuelCost;
+        
+       double profit = baseCost * 0.25;
+        
+        double customerCharge = operationalCost + profit;
+        
+        if (deliveryCount < 50) {
+            deliveries[deliveryCount] = new DeliveryRecord(source - 1, dest - 1, weight, vehicleType,  distance, customerCharge, deliveryTime);
+            deliveryCount++;
+        }
+        
+        System.out.println("\n--- DELIVERY COST ESTIMATION ---");
+        System.out.println("From: " + cities[source - 1]);
+        System.out.println("To: " + cities[dest - 1]);
+        System.out.println("Distance: " + distance + " km");
+        System.out.println("Vehicle: " + vehicleTypes[vehicleType]);
+        System.out.println("Weight: " + weight + " kg");
+        System.out.println("---");
+        System.out.printf("Base Cost: %.2f LKR\n", baseCost);
+        System.out.printf("Fuel Used: %.2f L\n", fuelUsed);
+        System.out.printf("Fuel Cost: %.2f LKR\n", fuelCost);
+        System.out.printf("Operational Cost: %.2f LKR\n", operationalCost);
+        System.out.printf("Profit: %.2f LKR\n", profit);
+        System.out.printf("Customer Charge: %.2f LKR\n", customerCharge);
+        System.out.printf("Estimated Time: %.2f hours\n", deliveryTime);
     }
+
 
     public static void findLeastCostRoute() {
     }
