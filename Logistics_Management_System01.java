@@ -1,8 +1,7 @@
-
 package com.mycompany.logistics_management_system01;
 
 import java.util.Scanner;
-
+import java.io.*;
 
 public class Logistics_Management_System01 {
     
@@ -19,25 +18,213 @@ public class Logistics_Management_System01 {
     
     static DeliveryRecord[] deliveries = new DeliveryRecord[50];
     static int deliveryCount = 0;
+    
+    // File names for data persistence
+    static final String CITIES_FILE = "cities.txt";
+    static final String DISTANCES_FILE = "distances.txt";
+    static final String DELIVERIES_FILE = "deliveries.txt";
+    
     static class DeliveryRecord {
-      
+        int sourceCity;
+        int destCity;
+        double weight;
+        int vehicleType;
         double distance;
         double customerCharge;
         double deliveryTime;
         
         DeliveryRecord(int source, int dest, double weight, int vehicle, double dist, double charge, double time) {
-          
+            this.sourceCity = source;
+            this.destCity = dest;
+            this.weight = weight;
+            this.vehicleType = vehicle;
             this.distance = dist;
             this.customerCharge = charge;
             this.deliveryTime = time;
         }
     }
 
-    
-
-
     public static void main(String[] args) {
-       displayMainMenu();
+        loadDataFromFiles();
+        displayMainMenu();
+        saveDataToFiles();
+    }
+    
+    public static void loadDataFromFiles() {
+        System.out.println("Loading data from files...");
+        loadCitiesFromFile();
+        loadDistancesFromFile();
+        loadDeliveriesFromFile();
+        System.out.println("Data loaded successfully!");
+    }
+    
+    public static void saveDataToFiles() {
+        System.out.println("Saving data to files...");
+        saveCitiesToFile();
+        saveDistancesToFile();
+        saveDeliveriesToFile();
+        System.out.println("Data saved successfully!");
+    }
+    
+    public static void loadCitiesFromFile() {
+        try {
+            File file = new File(CITIES_FILE);
+            if (!file.exists()) {
+                System.out.println("Cities file not found. Starting with empty cities.");
+                return;
+            }
+            
+            Scanner fileScanner = new Scanner(file);
+            cityCount = 0;
+            
+            while (fileScanner.hasNextLine() && cityCount < 30) {
+                String cityName = fileScanner.nextLine().trim();
+                if (!cityName.isEmpty()) {
+                    cities[cityCount] = cityName;
+                    cityCount++;
+                }
+            }
+            
+            fileScanner.close();
+            System.out.println("Loaded " + cityCount + " cities from file.");
+            
+        } catch (FileNotFoundException e) {
+            System.out.println("Error loading cities file: " + e.getMessage());
+        }
+    }
+    
+    public static void loadDistancesFromFile() {
+        try {
+            File file = new File(DISTANCES_FILE);
+            if (!file.exists()) {
+                System.out.println("Distances file not found. Starting with empty distances.");
+                return;
+            }
+            
+            Scanner fileScanner = new Scanner(file);
+            int row = 0;
+            
+            while (fileScanner.hasNextLine() && row < 30) {
+                String line = fileScanner.nextLine();
+                String[] distanceValues = line.split(",");
+                
+                for (int col = 0; col < distanceValues.length && col < 30; col++) {
+                    try {
+                        distances[row][col] = Integer.parseInt(distanceValues[col].trim());
+                    } catch (NumberFormatException e) {
+                        distances[row][col] = 0;
+                    }
+                }
+                row++;
+            }
+            
+            fileScanner.close();
+            System.out.println("Loaded distance matrix from file.");
+            
+        } catch (FileNotFoundException e) {
+            System.out.println("Error loading distances file: " + e.getMessage());
+        }
+    }
+    
+    public static void loadDeliveriesFromFile() {
+        try {
+            File file = new File(DELIVERIES_FILE);
+            if (!file.exists()) {
+                System.out.println("Deliveries file not found. Starting with empty delivery history.");
+                return;
+            }
+            
+            Scanner fileScanner = new Scanner(file);
+            deliveryCount = 0;
+            
+            while (fileScanner.hasNextLine() && deliveryCount < 50) {
+                String line = fileScanner.nextLine();
+                String[] deliveryData = line.split(",");
+                
+                if (deliveryData.length >= 7) {
+                    try {
+                        int source = Integer.parseInt(deliveryData[0].trim());
+                        int dest = Integer.parseInt(deliveryData[1].trim());
+                        double weight = Double.parseDouble(deliveryData[2].trim());
+                        int vehicleType = Integer.parseInt(deliveryData[3].trim());
+                        double distance = Double.parseDouble(deliveryData[4].trim());
+                        double charge = Double.parseDouble(deliveryData[5].trim());
+                        double time = Double.parseDouble(deliveryData[6].trim());
+                        
+                        deliveries[deliveryCount] = new DeliveryRecord(source, dest, weight, vehicleType, distance, charge, time);
+                        deliveryCount++;
+                    } catch (NumberFormatException e) {
+                        System.out.println("Error parsing delivery data: " + e.getMessage());
+                    }
+                }
+            }
+            
+            fileScanner.close();
+            System.out.println("Loaded " + deliveryCount + " deliveries from file.");
+            
+        } catch (FileNotFoundException e) {
+            System.out.println("Error loading deliveries file: " + e.getMessage());
+        }
+    }
+    
+    public static void saveCitiesToFile() {
+        try {
+            PrintWriter writer = new PrintWriter(CITIES_FILE);
+            
+            for (int i = 0; i < cityCount; i++) {
+                writer.println(cities[i]);
+            }
+            
+            writer.close();
+            
+        } catch (FileNotFoundException e) {
+            System.out.println("Error saving cities to file: " + e.getMessage());
+        }
+    }
+    
+    public static void saveDistancesToFile() {
+        try {
+            PrintWriter writer = new PrintWriter(DISTANCES_FILE);
+            
+            for (int i = 0; i < cityCount; i++) {
+                for (int j = 0; j < cityCount; j++) {
+                    writer.print(distances[i][j]);
+                    if (j < cityCount - 1) {
+                        writer.print(",");
+                    }
+                }
+                writer.println();
+            }
+            
+            writer.close();
+            
+        } catch (FileNotFoundException e) {
+            System.out.println("Error saving distances to file: " + e.getMessage());
+        }
+    }
+    
+    public static void saveDeliveriesToFile() {
+        try {
+            PrintWriter writer = new PrintWriter(DELIVERIES_FILE);
+            
+            for (int i = 0; i < deliveryCount; i++) {
+                DeliveryRecord delivery = deliveries[i];
+                writer.printf("%d,%d,%.2f,%d,%.2f,%.2f,%.2f\n",
+                    delivery.sourceCity,
+                    delivery.destCity,
+                    delivery.weight,
+                    delivery.vehicleType,
+                    delivery.distance,
+                    delivery.customerCharge,
+                    delivery.deliveryTime
+                );
+            }
+            
+            writer.close();
+            
+        } catch (FileNotFoundException e) {
+            System.out.println("Error saving deliveries to file: " + e.getMessage());
+        }
     }
     
     public static void displayMainMenu() {
@@ -145,6 +332,8 @@ public class Logistics_Management_System01 {
         cities[cityCount] = cityName;
         cityCount++;
         System.out.println("City '" + cityName + "' added successfully!");
+        
+        saveCitiesToFile();
     }
     
     public static void viewCities() {
@@ -159,7 +348,6 @@ public class Logistics_Management_System01 {
         }
     }
     
-
     public static void renameCity(Scanner scanner) {
         viewCities();
         if (cityCount == 0) return;
@@ -180,6 +368,7 @@ public class Logistics_Management_System01 {
         cities[cityNum - 1] = newName;
         System.out.println("City '" + oldName + "' renamed to '" + newName + "'");
 
+        saveCitiesToFile();
     }
 
     public static void removeCity(Scanner scanner) {
@@ -202,6 +391,9 @@ public class Logistics_Management_System01 {
         cityCount--;
         
         System.out.println("City '" + removedCity + "' removed successfully!");
+        
+        saveCitiesToFile();
+        saveDistancesToFile();
     }
 
     public static void distanceManagement() {
@@ -265,6 +457,8 @@ public class Logistics_Management_System01 {
         distances[city2 - 1][city1 - 1] = distance;
         
         System.out.println("Distance between " + cities[city1 - 1] + " and " + cities[city2 - 1] + " set to " + distance + " km");
+        
+        saveDistancesToFile();
     }
 
     public static void viewDistanceTable() {
@@ -298,7 +492,6 @@ public class Logistics_Management_System01 {
                 vehicleTypes[i], capacities[i], ratesPerKm[i], avgSpeeds[i], fuelEfficiency[i]);
         }
     }
-
 
     public static void processDelivery() {
         Scanner scanner = new Scanner(System.in);
@@ -353,6 +546,8 @@ public class Logistics_Management_System01 {
         }
         
         calculateDeliveryCost(source, dest, distance, vehicleType, weight);
+        
+        saveDeliveriesToFile();
     }
      public static void calculateDeliveryCost(int source, int dest, int distance, int vehicleType, double weight) {
         double baseCost = distance * ratesPerKm[vehicleType] * (1 + weight / 10000);
@@ -364,7 +559,7 @@ public class Logistics_Management_System01 {
         
         double operationalCost = baseCost + fuelCost;
         
-       double profit = baseCost * 0.25;
+        double profit = baseCost * 0.25;
         
         double customerCharge = operationalCost + profit;
         
@@ -483,5 +678,4 @@ public class Logistics_Management_System01 {
         System.out.printf("e. Longest Route: %.2f km\n", longestDistance);
         System.out.printf("   Shortest Route: %.2f km\n", shortestDistance);
     }
-
 }
