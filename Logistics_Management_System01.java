@@ -15,7 +15,6 @@ public class Logistics_Management_System01 {
        displayMainMenu();
     }
     
-   
     public static void displayMainMenu() {
         Scanner scanner = new Scanner(System.in);
         int choice;
@@ -123,7 +122,6 @@ public class Logistics_Management_System01 {
         System.out.println("City '" + cityName + "' added successfully!");
     }
     
-
     public static void viewCities() {
         if (cityCount == 0) {
             System.out.println("No cities available!");
@@ -209,8 +207,41 @@ public class Logistics_Management_System01 {
         } while (choice != 3);
     }
     public static void addEditDistance(Scanner scanner) {
-      
- }
+        viewCities();
+        if (cityCount < 2) {
+            System.out.println("Need at least 2 cities to manage distances!");
+            return;
+        }
+        
+        System.out.print("Enter first city number: ");
+        int city1 = scanner.nextInt();
+        System.out.print("Enter second city number: ");
+        int city2 = scanner.nextInt();
+        
+        if (city1 < 1 || city1 > cityCount || city2 < 1 || city2 > cityCount) {
+            System.out.println("Invalid city numbers!");
+            return;
+        }
+        
+        if (city1 == city2) {
+            System.out.println("Distance between same city is always 0!");
+            return;
+        }
+        
+        System.out.print("Enter distance in km: ");
+        int distance = scanner.nextInt();
+        
+        if (distance <= 0) {
+            System.out.println("Distance must be positive!");
+            return;
+        }
+        
+        distances[city1 - 1][city2 - 1] = distance;
+        distances[city2 - 1][city1 - 1] = distance;
+        
+        System.out.println("Distance between " + cities[city1 - 1] + " and " + cities[city2 - 1] + " set to " + distance + " km");
+    }
+
     public static void viewDistanceTable() {
       
  }
