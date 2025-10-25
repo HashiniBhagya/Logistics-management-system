@@ -390,10 +390,46 @@ public class Logistics_Management_System01 {
         System.out.printf("Customer Charge: %.2f LKR\n", customerCharge);
         System.out.printf("Estimated Time: %.2f hours\n", deliveryTime);
     }
-
-
     public static void findLeastCostRoute() {
+        Scanner scanner = new Scanner(System.in);
+        
+        if (cityCount < 2) {
+            System.out.println("Need at least 2 cities!");
+            return;
+        }
+        
+        viewCities();
+        System.out.print("Enter source city number: ");
+        int source = scanner.nextInt();
+        System.out.print("Enter destination city number: ");
+        int dest = scanner.nextInt();
+        
+        if (source < 1 || source > cityCount || dest < 1 || dest > cityCount) {
+            System.out.println("Invalid city numbers!");
+            return;
+        }
+        
+        if (source == dest) {
+            System.out.println("Source and destination are the same!");
+            return;
+        }
+        
+        int directDistance = distances[source - 1][dest - 1];
+        
+        if (directDistance > 0) {
+            System.out.println("Direct route found:");
+            System.out.println(cities[source - 1] + " → " + cities[dest - 1] + " : " + directDistance + " km");
+        } else {
+            System.out.println("No direct route found.");
+            System.out.println("Searching for alternative routes...");
+            
+            findAlternativeRoutes(source - 1, dest - 1);
+        }
     }
+    public static void findAlternativeRoutes(int source, int dest) {
+    }
+    
+
 
     public static void showReports() {
     }
