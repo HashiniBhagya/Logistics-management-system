@@ -286,6 +286,60 @@ public class Logistics_Management_System01 {
 
 
     public static void processDelivery() {
+        Scanner scanner = new Scanner(System.in);
+        
+        if (cityCount < 2) {
+            System.out.println("Need at least 2 cities for delivery!");
+            return;
+        }
+        
+        viewCities();
+        System.out.print("Enter source city number: ");
+        int source = scanner.nextInt();
+        System.out.print("Enter destination city number: ");
+        int dest = scanner.nextInt();
+        
+        if (source < 1 || source > cityCount || dest < 1 || dest > cityCount) {
+            System.out.println("Invalid city numbers!");
+            return;
+        }
+        
+        if (source == dest) {
+            System.out.println("Source and destination cannot be same!");
+            return;
+        }
+        
+        int distance = distances[source - 1][dest - 1];
+        if (distance == 0) {
+            System.out.println("No route available between these cities!");
+            return;
+        }
+        
+        showVehicleInfo();
+        System.out.print("Select vehicle type (1=Van, 2=Truck, 3=Lorry): ");
+        int vehicleType = scanner.nextInt() - 1;
+        
+        if (vehicleType < 0 || vehicleType > 2) {
+            System.out.println("Invalid vehicle type!");
+            return;
+        }
+        
+        System.out.print("Enter package weight (kg): ");
+        double weight = scanner.nextDouble();
+        
+        if (weight <= 0) {
+            System.out.println("Weight must be positive!");
+            return;
+        }
+        
+        if (weight > capacities[vehicleType]) {
+            System.out.println("Weight exceeds vehicle capacity! Max: " + capacities[vehicleType] + "kg");
+            return;
+        }
+        
+        calculateDeliveryCost(source, dest, distance, vehicleType, weight);
+    }
+    public static void calculateDeliveryCost(int source, int dest, int distance, int vehicleType, double weight) {
     }
 
     public static void findLeastCostRoute() {
@@ -293,6 +347,8 @@ public class Logistics_Management_System01 {
 
     public static void showReports() {
     }
+
+   
 
        
 
