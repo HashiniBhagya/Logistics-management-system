@@ -243,8 +243,26 @@ public class Logistics_Management_System01 {
     }
 
     public static void viewDistanceTable() {
-      
- }
+        if (cityCount == 0) {
+            System.out.println("No cities available!");
+            return;
+        }
+        
+        System.out.println("\n=== DISTANCE TABLE (km) ===");
+        System.out.print("        ");
+        for (int i = 0; i < cityCount; i++) {
+            System.out.printf("%-8s", cities[i].substring(0, Math.min(7, cities[i].length())));
+        }
+        System.out.println();
+        
+        for (int i = 0; i < cityCount; i++) {
+            System.out.printf("%-8s", cities[i].substring(0, Math.min(7, cities[i].length())));
+            for (int j = 0; j < cityCount; j++) {
+                System.out.printf("%-8d", distances[i][j]);
+            }
+            System.out.println();
+        }
+    }
   
 
     public static void showVehicleInfo() {
