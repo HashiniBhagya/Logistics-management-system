@@ -102,23 +102,7 @@ public class Logistics_Management_System01 {
         } while (choice != 5);
 
     }
-
-    public static void distanceManagement() {
-    }
-
-    public static void showVehicleInfo() {
-    }
-
-    public static void processDelivery() {
-    }
-
-    public static void findLeastCostRoute() {
-    }
-
-    public static void showReports() {
-    }
-
-       public static void addCity(Scanner scanner) {
+    public static void addCity(Scanner scanner) {
         if (cityCount >= 30) {
             System.out.println("Cannot add more cities! Maximum limit reached.");
             return;
@@ -196,7 +180,55 @@ public class Logistics_Management_System01 {
         
         System.out.println("City '" + removedCity + "' removed successfully!");
     }
-    
+
+    public static void distanceManagement() {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        
+        do {
+            System.out.println("\n=== DISTANCE MANAGEMENT ===");
+            System.out.println("1. Add/Edit Distance");
+            System.out.println("2. View Distance Table");
+            System.out.println("3. Back to Main Menu");
+            System.out.print("Enter your choice: ");
+            
+            choice = scanner.nextInt();
+            
+            switch (choice) {
+                case 1:
+                    addEditDistance(scanner);
+                    break;
+                case 2:
+                    viewDistanceTable();
+                    break;
+                case 3:
+                    break;
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        } while (choice != 3);
+    }
+    public static void addEditDistance(Scanner scanner) {
+      
+ }
+    public static void viewDistanceTable() {
+      
+ }
+  
+
+    public static void showVehicleInfo() {
+    }
+
+    public static void processDelivery() {
+    }
+
+    public static void findLeastCostRoute() {
+    }
+
+    public static void showReports() {
+    }
+
+       
 
     
 }
