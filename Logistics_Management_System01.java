@@ -10,6 +10,14 @@ public class Logistics_Management_System01 {
     static int[][] distances = new int[30][30];
     static int cityCount = 0;
     static final int FUEL_PRICE = 310;
+    
+    static String[] vehicleTypes = {"Van", "Truck", "Lorry"};
+    static int[] capacities = {1000, 5000, 10000};
+    static int[] ratesPerKm = {30, 40, 80};
+    static int[] avgSpeeds = {60, 50, 45};
+    static int[] fuelEfficiency = {12, 6, 4};
+    
+
 
     public static void main(String[] args) {
        displayMainMenu();
@@ -266,7 +274,16 @@ public class Logistics_Management_System01 {
   
 
     public static void showVehicleInfo() {
+        System.out.println("\n=== VEHICLE INFORMATION ===");
+        System.out.println("Type   Capacity(kg) Rate/km(LKR) Speed(km/h) Fuel(km/l)");
+        System.out.println("--------------------------------------------------------");
+        
+        for (int i = 0; i < vehicleTypes.length; i++) {
+            System.out.printf("%-6s %-12d %-13d %-11d %-10d\n", 
+                vehicleTypes[i], capacities[i], ratesPerKm[i], avgSpeeds[i], fuelEfficiency[i]);
+        }
     }
+
 
     public static void processDelivery() {
     }
